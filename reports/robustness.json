@@ -1,0 +1,59 @@
+{
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "runs": [
+    {
+      "seed": 1,
+      "drift_alert_month": 10,
+      "performance_alert_known_month": NaN,
+      "never_retrain_capture_12_18": 0.3066,
+      "perf_alert_retrain_capture_12_18": 0.3066,
+      "drift_retrain_capture_12_18": 0.3574,
+      "drift_retrain_gain": 0.0508
+    },
+    {
+      "seed": 2,
+      "drift_alert_month": 10,
+      "performance_alert_known_month": 18.0,
+      "never_retrain_capture_12_18": 0.2721,
+      "perf_alert_retrain_capture_12_18": 0.2941,
+      "drift_retrain_capture_12_18": 0.3515,
+      "drift_retrain_gain": 0.0794
+    },
+    {
+      "seed": 3,
+      "drift_alert_month": 10,
+      "performance_alert_known_month": 17.0,
+      "never_retrain_capture_12_18": 0.2886,
+      "perf_alert_retrain_capture_12_18": 0.3222,
+      "drift_retrain_capture_12_18": 0.3697,
+      "drift_retrain_gain": 0.0811
+    },
+    {
+      "seed": 4,
+      "drift_alert_month": 10,
+      "performance_alert_known_month": 17.0,
+      "never_retrain_capture_12_18": 0.2705,
+      "perf_alert_retrain_capture_12_18": 0.3188,
+      "drift_retrain_capture_12_18": 0.3672,
+      "drift_retrain_gain": 0.0967
+    },
+    {
+      "seed": 5,
+      "drift_alert_month": 10,
+      "performance_alert_known_month": 14.0,
+      "never_retrain_capture_12_18": 0.2431,
+      "perf_alert_retrain_capture_12_18": 0.3397,
+      "drift_retrain_capture_12_18": 0.3522,
+      "drift_retrain_gain": 0.1091
+    }
+  ],
+  "drift_retrain_gain_mean": 0.0834,
+  "drift_retrain_gain_min": 0.0508,
+  "drift_retrain_gain_max": 0.1091
+}

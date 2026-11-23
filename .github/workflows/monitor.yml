@@ -1,0 +1,29 @@
+name: monthly-monitoring
+
+on:
+  push:
+  schedule:
+    - cron: "0 21 1 * *"   # 1st of every month
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Tests
+        run: pytest -q
+      - name: Simulate data and run the monitor
+        run: |
+          python -m src.simulate
+          python -m src.monitor
+      - name: Publish the monitoring report
+        run: cat reports/monitoring_report.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: monitoring-report
+          path: reports/

@@ -1,0 +1,50 @@
+{
+  "baseline": {
+    "auc": 0.7491,
+    "top_decile_capture": 0.3254
+  },
+  "capture_alert_threshold": 0.2766,
+  "drift_alert_month": 10,
+  "performance_alert_cohort": 16,
+  "performance_alert_known_month": 19,
+  "lead_time_months": 9,
+  "policies": {
+    "Never retrain": {
+      "mean_capture_all_months": 0.3068,
+      "mean_capture_months_12_18": 0.3006,
+      "retrains": []
+    },
+    "Retrain on performance alert": {
+      "mean_capture_all_months": 0.3068,
+      "mean_capture_months_12_18": 0.3006,
+      "retrains": []
+    },
+    "Retrain on drift alert": {
+      "mean_capture_all_months": 0.3463,
+      "mean_capture_months_12_18": 0.3642,
+      "retrains": [
+        {
+          "month": 11,
+          "trained_on": [
+            3,
+            8
+          ]
+        },
+        {
+          "month": 14,
+          "trained_on": [
+            6,
+            11
+          ]
+        },
+        {
+          "month": 17,
+          "trained_on": [
+            9,
+            14
+          ]
+        }
+      ]
+    }
+  }
+}
