@@ -2,7 +2,9 @@
 
 **A propensity model goes live, then interest rates rise. How soon do you find out it's going stale, and what should you do about it?**
 
-**At a glance:** I replayed 12 months of production for a first home buyer propensity model through a simulated rate shock.
+> **Part 4 of 4 in a lending AI series:** [1. Predict who will apply](https://github.com/Shru2006/first-home-buyer-lead-intelligence) → [2. Target who a call changes](https://github.com/Shru2006/outreach-uplift-modelling) → [3. Test the LLM's briefs](https://github.com/Shru2006/llm-brief-evals) → **4. Monitor it in production**
+
+**At a glance:** 12 months of production replayed for a first home buyer propensity model, through a simulated rate shock.
 - **Input-drift monitoring raised the alarm in month 10.** Waiting for outcome labels, which arrive 3 months late, confirmed the decay only in month 19, after the 18-month window had ended. That's **9 months later**.
 - **The model's score distribution barely moved** (PSI never above 0.04). Monitoring the score alone would have missed the shift entirely.
 - **Retraining when drift fires** kept **36% of future applicants in the top 10%**, against **30%** for never retraining. Across 5 random seeds the gain was **+5 to +11 points**, never negative.
@@ -72,7 +74,9 @@ Baseline before deployment: AUC 0.749, top-decile capture 32.5%.
 
 The drift alert fired in month 10 every time. Label-based confirmation came 4 months later at best, and not at all at worst. Retraining on drift gained **+5.1 to +10.9 points** (mean +8.3).
 
-## 4. Design decisions and limitations
+## 4. Responsible AI, design decisions and limitations
+
+One-page summary: [model card](MODEL_CARD.md).
 
 | Decision | Why |
 |---|---|
@@ -93,13 +97,30 @@ python -m venv .venv
 .venv\Scripts\activate            # macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
 
-python -m src.simulate            # 1. 18 months of synthetic cohorts
-python -m src.monitor             # 2. drift, performance, retraining policies, report
-python -m src.robustness          # 3. repeat on 5 seeds (about 30 seconds)
+python -m src.pipeline            # everything, incl. the 5-seed check (~30 s); --quick skips it
 pytest -q
 ```
 
-## 6. What I would do next
+Or step by step: `python -m src.simulate`, `python -m src.monitor`, `python -m src.robustness`. No API key or paid service is needed.
+
+## 6. Project structure
+
+```
+├── MODEL_CARD.md          purpose, monitoring rules, retraining policy, limits
+├── src/
+│   ├── config.py          months, label lag, alert thresholds
+│   ├── simulate.py        18 monthly cohorts with a rate shock
+│   ├── metrics.py         PSI, AUC, top-decile capture
+│   ├── monitor.py         monthly monitor + retraining policy replay
+│   ├── robustness.py      repeat on 5 random seeds
+│   ├── report.py          charts + markdown report
+│   └── pipeline.py        runs every step
+├── reports/               monthly table, report, metrics, figures
+├── tests/                 PSI, simulator, and the no-peeking rule
+└── .github/workflows/     monthly scheduled run + on every push
+```
+
+## 7. What I would do next
 
 - Champion-challenger promotion: a retrained model goes live only if it beats the current one on the latest labelled month.
 - Track experiments and model versions in MLflow, and package the job in Docker.
@@ -107,5 +128,7 @@ pytest -q
 - Segment-level monitoring, so a shift in one region or customer group isn't averaged away.
 
 ---
+
+**The series:** [1. Predict who will apply](https://github.com/Shru2006/first-home-buyer-lead-intelligence) · [2. Target who a call changes](https://github.com/Shru2006/outreach-uplift-modelling) · [3. Test the LLM's briefs](https://github.com/Shru2006/llm-brief-evals) · **4. Monitor it in production**
 
 **Author:** Shruti Prabhu · [LinkedIn](https://www.linkedin.com/in/shruti-prabhu-32b77477) · [GitHub](https://github.com/Shru2006)
